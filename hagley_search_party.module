@@ -1,0 +1,30 @@
+<?php
+/**
+ * @file
+ * Module hooks.
+ */
+
+/**
+ * Implements hook_islandora_solr_results_alter().
+ */
+function hagley_search_party_islandora_solr_results_alter(&$search_results, $query_processor) {
+  foreach ($search_results as $index => &$result) {
+    if ($result['solr_doc'] && isset($result['content_models'])) {
+      if (isset($result['solr_doc']['mods_recordInfo_recordIdentifier_s'])) {
+        $identifier = $result['solr_doc']['mods_recordInfo_recordIdentifier_s'];
+        $is_ead = in_array('info:fedora/islandora:eadCModel', $result['content_models']);
+
+        if ($is_ead) {
+		$fa_identifier = str_replace('.','_',$identifier); //swap characters for filename in url
+          $result['solr_doc']['mods_recordInfo_recordIdentifier_s'] = l($fa_identifier, "https://findingaids.hagley.org/$fa_identifier");
+          $result['object_url'] = "https://findingaids.hagley.org/$fa_identifier";
+        }
+        else {
+          unset($result['solr_doc']['mods_recordInfo_recordIdentifier_s']);
+       }
+     }
+    }
+  }
+}
+
+

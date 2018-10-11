@@ -1,0 +1,5 @@
+name = Hagley Search Party
+description = Redirect ead objects in solr results to XTF
+package = Hagley
+dependencies[] = islandora
+core = 7.x

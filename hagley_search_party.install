@@ -1,0 +1,12 @@
+<?php
+/**
+ * @file
+ * Install functions.
+ */
+
+/**
+ * Implements hook_install().
+ *
+ * @see islandora_basic_collection_islandora_required_objects()
+ */
+function hagley_search_party_install(){}
