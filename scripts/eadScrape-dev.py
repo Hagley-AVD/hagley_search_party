@@ -61,15 +61,22 @@ for result in results:
         nfreport = "%s is not found." % faxml + '\n'
         report.write(nfreport)
 
+# junk entries
+FAmismatch = ["LMSS.III","LMSS.I","LMSS.II","LMSS.IV","LMSS.VI","1359.part.II","1665.strip","WMSS.IX","20100108.ZTV.XXV"]
+
 # compare lists of finding aids
 def Diff(faead_list,isl_list):
     return(list(set(faead_list) - set(isl_list)))
 
 fadiff = Diff(faead_list,isl_list)
-FAmismatch = ["LMSS.III","LMSS.I","LMSS.II","LMSS.IV","LMSS.VI","1359.part.II","1665.strip","WMSS.IX","20100108.ZTV.XXV"]
-fadiffstr = "\n".join(fadiff)
-FAmismatchstr = "\n".join(FAmismatch)
-fadiffClean = fadiffstr.replace(FAmismatchstr,"")
+
+# and list to junk
+def Diff (fadiff,FAmismatch):
+	return(list(set(fadiff) - set(FAmismatch)))
+
+fadiffreg = Diff(fadiff, FAmismatch)
+
+fadiffClean = "\n".join(fadiffreg)
 report.write("\nNew EAD:\n%s" % fadiffClean)
 # and finish
 report.write('\n'+ "====== Report Complete: %s ======" % ts)
